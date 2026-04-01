@@ -15,6 +15,17 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+                    @if (Auth::user()->role === 'admin')
+                        <x-nav-link :href="route('admin.employees.index')" :active="request()->routeIs('admin.employees.*')">
+                            {{ __('Employees') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('admin.attendance.daily')" :active="request()->routeIs('admin.attendance.*')">
+                            {{ __('Attendance') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('admin.schedules.index')" :active="request()->routeIs('admin.schedules.*')">
+                            {{ __('Schedules') }}
+                        </x-nav-link>
+                    @endif
                 </div>
             </div>
 
@@ -31,7 +42,10 @@
                                     <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5.121 17.804A13.937 13.937 0 0112 15c2.5 0 4.847.655 6.879 1.804M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
                                 </span>
                             @endif
-                            <div>{{ $user->name }}</div>
+                            <div>
+                                {{ $user->name }}
+                                <span class="text-xs text-gray-400">({{ ucfirst($user->role) }})</span>
+                            </div>
                             <div class="ms-1">
                                 <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                                     <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
@@ -77,6 +91,17 @@
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+            @if (Auth::user()->role === 'admin')
+                <x-responsive-nav-link :href="route('admin.employees.index')" :active="request()->routeIs('admin.employees.*')">
+                    {{ __('Employees') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('admin.attendance.daily')" :active="request()->routeIs('admin.attendance.*')">
+                    {{ __('Attendance') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('admin.schedules.index')" :active="request()->routeIs('admin.schedules.*')">
+                    {{ __('Schedules') }}
+                </x-responsive-nav-link>
+            @endif
         </div>
 
         <!-- Responsive Settings Options -->
@@ -84,6 +109,7 @@
             <div class="px-4">
                 <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
                 <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
+                <div class="font-medium text-sm text-gray-500">{{ __('Role') }}: {{ ucfirst(Auth::user()->role) }}</div>
             </div>
 
             <div class="mt-3 space-y-1">
