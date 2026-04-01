@@ -58,7 +58,18 @@
                                 <tr class="hover:bg-white/45">
                                     <td class="px-5 py-3 text-sm text-gray-800">{{ $row['employee']->name }}</td>
                                     <td class="px-5 py-3 text-sm text-gray-700">{{ $row['employee']->id_number }}</td>
-                                    <td class="px-5 py-3 text-sm text-gray-700">{{ ucfirst(str_replace('_', ' ', $row['status'])) }}</td>
+                                    @php
+                                        $statusColors = [
+                                            'present' => 'text-emerald-600',
+                                            'absent' => 'text-red-600',
+                                            'day_off' => 'text-violet-600',
+                                            'on_leave' => 'text-amber-600',
+                                            'workday' => 'text-gray-800',
+                                        ];
+                                        $statusText = ucfirst(str_replace('_', ' ', $row['status']));
+                                        $statusColor = $statusColors[$row['status']] ?? 'text-gray-800';
+                                    @endphp
+                                    <td class="px-5 py-3 text-sm font-semibold {{ $statusColor }}">{{ $statusText }}</td>
                                     <td class="px-5 py-3 text-sm text-gray-700">{{ optional($row['clock_in_at'])->format('h:i A') ?? '-' }}</td>
                                     <td class="px-5 py-3 text-sm text-gray-700">{{ optional($row['clock_out_at'])->format('h:i A') ?? '-' }}</td>
                                     <td class="px-5 py-3 text-sm text-gray-700">{{ $row['schedule_note'] ?? '-' }}</td>

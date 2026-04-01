@@ -64,4 +64,31 @@ class AttendanceController extends Controller
 
         return back()->with('status', 'Clock-out recorded at ' . now()->format('h:i A') . '.');
     }
+    /**
+     * Allow employee to set their own day off or on leave status for today.
+     */
+    public function setStatus(Request $request): RedirectResponse
+    {
+        $user = $request->user();
+        $today = Carbon::today()->toDateString();
+        $status = $request->input('status');
+
+        if (!in_array($status, ['workday', 'day_off', 'on_leave'], true)) {
+            return back()->with('error', 'Invalid status.');
+        }
+
+        $schedule = WorkSchedule::query()
+            ->firstOrNew([
+                'user_id' => $user->id,
+                'schedule_date' => $today,
+            ]);
+        $schedule->status = $status;
+        $schedule->save();
+
+        $msg = $status === 'workday'
+            ? 'Status reset to workday. You can now clock in/out.'
+            : 'Your status for today is set to ' . str_replace('_', ' ', $status) . '. No clock-in/out required.';
+
+        return back()->with('status', $msg);
+    }
 }

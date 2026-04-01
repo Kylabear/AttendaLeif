@@ -22,7 +22,18 @@
             <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
                 <div class="glass-panel p-6 text-center">
                     <p class="text-xs font-medium uppercase tracking-wider text-gray-500">{{ __('Today Status') }}</p>
-                    <p class="mt-2 bg-gradient-to-r from-gray-800 to-gray-600 bg-clip-text text-2xl font-bold text-transparent">{{ ucfirst(str_replace('_', ' ', $todayStatus)) }}</p>
+                    @php
+                        $statusColors = [
+                            'present' => 'text-emerald-600',
+                            'absent' => 'text-red-600',
+                            'day_off' => 'text-violet-600',
+                            'on_leave' => 'text-amber-600',
+                            'workday' => 'text-gray-800',
+                        ];
+                        $statusText = ucfirst(str_replace('_', ' ', $todayStatus));
+                        $statusColor = $statusColors[$todayStatus] ?? 'text-gray-800';
+                    @endphp
+                    <span class="mt-2 text-2xl font-bold {{ $statusColor }}">{{ $statusText }}</span>
                 </div>
                 <div class="glass-panel p-6 text-center">
                     <p class="text-xs font-medium uppercase tracking-wider text-gray-500">{{ __('Clock In') }}</p>
@@ -48,10 +59,27 @@
                             {{ __('Your schedule for today is :status. The company already sees you under that category in the daily attendance report—no action is required from you.', ['status' => str_replace('_', ' ', $todayStatus)]) }}
                         </p>
                         <p class="mt-2 text-xs text-indigo-800/80">
-                            {{ __('If this looks wrong, ask HR or your admin to update your schedule for this date.') }}
+                            {{ __('If this looks wrong, you can update your status below.') }}
                         </p>
+                        <form method="POST" action="{{ route('attendance.set-status') }}" class="mt-3 inline-block">
+                            @csrf
+                            <input type="hidden" name="status" value="workday">
+                            <button type="submit" class="btn-glass-secondary px-4 py-2 text-xs">{{ __('Set as Workday') }}</button>
+                        </form>
                     </div>
                 @else
+                    <div class="flex flex-wrap items-center justify-center gap-3 mb-4">
+                        <form method="POST" action="{{ route('attendance.set-status') }}">
+                            @csrf
+                            <input type="hidden" name="status" value="day_off">
+                            <button type="submit" class="btn-glass-secondary px-4 py-2 text-xs">{{ __('Mark as Day Off') }}</button>
+                        </form>
+                        <form method="POST" action="{{ route('attendance.set-status') }}">
+                            @csrf
+                            <input type="hidden" name="status" value="on_leave">
+                            <button type="submit" class="btn-glass-secondary px-4 py-2 text-xs">{{ __('Mark as On Leave') }}</button>
+                        </form>
+                    </div>
                     @php
                         $canClockIn = $attendance?->clock_in_at === null;
                         $canClockOut = $attendance?->clock_in_at !== null && $attendance?->clock_out_at === null;
@@ -169,8 +197,8 @@
                             @forelse ($recentAttendances as $item)
                                 <tr class="hover:bg-white/40">
                                     <td class="px-5 py-3 text-center text-sm text-gray-800">{{ $item->attendance_date->format('M d, Y') }}</td>
-                                    <td class="px-5 py-3 text-center text-sm text-gray-700">{{ optional($item->clock_in_at)->format('h:i A') ?? '-' }}</td>
-                                    <td class="px-5 py-3 text-center text-sm text-gray-700">{{ optional($item->clock_out_at)->format('h:i A') ?? '-' }}</td>
+                                    <td class="px-5 py-3 text-center text-sm text-emerald-700">{{ optional($item->clock_in_at)->format('h:i A') ?? '-' }}</td>
+                                    <td class="px-5 py-3 text-center text-sm text-indigo-700">{{ optional($item->clock_out_at)->format('h:i A') ?? '-' }}</td>
                                 </tr>
                             @empty
                                 <tr>

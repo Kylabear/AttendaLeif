@@ -31,6 +31,7 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['auth', 'role:employee'])->prefix('attendance')->name('attendance.')->group(function () {
     Route::post('/clock-in', [EmployeeAttendanceController::class, 'clockIn'])->name('clock-in');
     Route::post('/clock-out', [EmployeeAttendanceController::class, 'clockOut'])->name('clock-out');
+    Route::post('/set-status', [EmployeeAttendanceController::class, 'setStatus'])->name('set-status');
 });
 
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {

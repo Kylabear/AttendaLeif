@@ -31,7 +31,7 @@
                 </div>
                 <div class="glass-panel col-span-2 p-4 text-center md:col-span-1">
                     <p class="text-xs font-medium uppercase tracking-wider text-gray-500">{{ __('Day Off') }}</p>
-                    <p class="mt-2 text-3xl font-bold text-indigo-600">{{ $summary['day_off'] }}</p>
+                    <p class="mt-2 text-3xl font-bold text-violet-600">{{ $summary['day_off'] }}</p>
                 </div>
             </div>
 
