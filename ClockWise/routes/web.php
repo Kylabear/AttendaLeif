@@ -19,7 +19,7 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', [DashboardController::class, 'index'])
-    ->middleware(['auth', 'verified'])
+    ->middleware(['auth'])
     ->name('dashboard');
 
 Route::middleware('auth')->group(function () {
@@ -28,12 +28,12 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::middleware(['auth', 'verified', 'role:employee'])->prefix('attendance')->name('attendance.')->group(function () {
+Route::middleware(['auth', 'role:employee'])->prefix('attendance')->name('attendance.')->group(function () {
     Route::post('/clock-in', [EmployeeAttendanceController::class, 'clockIn'])->name('clock-in');
     Route::post('/clock-out', [EmployeeAttendanceController::class, 'clockOut'])->name('clock-out');
 });
 
-Route::middleware(['auth', 'verified', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
+Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/employees', [EmployeeController::class, 'index'])->name('employees.index');
     Route::patch('/employees/{user}/role', [EmployeeController::class, 'updateRole'])->name('employees.update-role');
     Route::delete('/employees/{user}', [EmployeeController::class, 'destroy'])->name('employees.destroy');

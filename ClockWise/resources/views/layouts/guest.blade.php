@@ -15,10 +15,12 @@
         <link rel="stylesheet" href="{{ mix('css/app.css') }}">
         <script src="{{ mix('js/app.js') }}" defer></script>
     </head>
-    <body class="font-sans text-gray-900 antialiased">
-        <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gray-100">
-
-
+    <body class="font-sans text-gray-900 antialiased app-page-bg">
+        <div class="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
+            <div class="absolute left-0 top-1/4 h-[360px] w-[360px] rounded-full bg-violet-400/30 blur-[95px]"></div>
+            <div class="absolute bottom-0 right-0 h-[320px] w-[320px] rounded-full bg-fuchsia-400/25 blur-[85px]"></div>
+        </div>
+        <div class="relative flex min-h-screen flex-col items-center justify-center pt-6 sm:pt-0">
             @yield('content')
         </div>
     </body>

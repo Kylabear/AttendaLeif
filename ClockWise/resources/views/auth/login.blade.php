@@ -23,7 +23,7 @@
         <p class="mt-2 text-gray-600">Sign in to continue to your account</p>
       </div>
       <!-- Glassmorphic Login Form Card -->
-      <div class="bg-white/80 backdrop-blur-xl rounded-[2rem] shadow-2xl p-8 border border-white/20">
+      <div class="glass-panel-strong rounded-[2rem] p-8 shadow-2xl">
         <form method="POST" action="{{ route('login') }}" class="space-y-6">
           @csrf
           <!-- ID Number Field -->
@@ -58,7 +58,7 @@
             @enderror
           </div>
           <!-- Submit Button -->
-          <button type="submit" class="w-full h-12 rounded-[2rem] bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 hover:from-indigo-600 hover:via-purple-600 hover:to-pink-600 text-white font-bold shadow-2xl hover:shadow-2xl transition-all duration-300 text-lg relative overflow-hidden group">Sign In</button>
+          <button type="submit" class="btn-glass-primary h-12 w-full rounded-2xl text-base font-bold shadow-xl">Sign In</button>
         </form>
         <!-- Sign Up Link -->
         <div class="mt-6 text-center text-sm text-gray-600">
@@ -72,34 +72,6 @@
     </div>
   </div>
 </div>
-<style>
-@keyframes orb1 {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  25% { transform: translate(100px, -50px) scale(1.1); }
-  50% { transform: translate(0, 0) scale(1); }
-  75% { transform: translate(-50px, 30px) scale(0.95); }
-}
-@keyframes orb2 {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  25% { transform: translate(-100px, 100px) scale(1.2); }
-  50% { transform: translate(0, 0) scale(1); }
-  75% { transform: translate(50px, -30px) scale(0.9); }
-}
-@keyframes orb3 {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  25% { transform: translate(50px, -100px) scale(1.15); }
-  50% { transform: translate(0, 0) scale(1); }
-  75% { transform: translate(-50px, 50px) scale(0.95); }
-}
-@keyframes particle {
-  0%, 100% { transform: translateY(0); opacity: 0.4; }
-  50% { transform: translateY(-30px); opacity: 0.8; }
-}
-.animate-orb1 { animation: orb1 8s ease-in-out infinite; }
-.animate-orb2 { animation: orb2 10s ease-in-out infinite; }
-.animate-orb3 { animation: orb3 9s ease-in-out infinite; }
-.animate-particle { animation: particle 4s cubic-bezier(0.4, 0, 0.6, 1) infinite; }
-</style>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
   const passwordInput = document.getElementById('password');
